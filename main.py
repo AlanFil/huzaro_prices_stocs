@@ -1,8 +1,8 @@
 import sys
-from time import sleep
 import requests
-from scrapy import Selector
 import xlwt
+from time import sleep
+from scrapy import Selector
 from tqdm import tqdm
 
 
@@ -49,21 +49,26 @@ def main(data):
     workbook = xlwt.Workbook(encoding='utf-8')
     worksheet = workbook.add_sheet('Sheet 1')
 
-    for i, (ean, link) in enumerate(tqdm(data, desc="Progress: ")):
+    for i, (ean, link) in enumerate(tqdm(data)):
         sel = Selector(text=requests.get(link.strip()).content)
         price = sel.xpath('//em[contains(@class, "main-price")]//text()').extract()[0]
         price = float(price.replace('\xa0', '').replace('zł', '').replace(',', '.'))
         price = price - (price * 0.15)
         price = format(price, '.2f')
+        name = ''.join(sel.xpath('//h1[@class="name"]//text()').extract()).strip()
 
         try:
             stock = sel.xpath('//div[@class="delivery"]/span[@class="second"]//text()').extract()[0]
         except IndexError:
             stock = sel.xpath('//div[@class="row availability"]/span[@class="second"]//text()').extract()[0]
 
+        stock_val = 1 if stock == "Natychmiast" else 0
+
         worksheet.write(i, 0, ean.strip())
         worksheet.write(i, 1, price)
-        worksheet.write(i, 2, stock)
+        worksheet.write(i, 2, stock_val)
+        worksheet.write(i, 3, name)
+        worksheet.write(i, 4, stock)
 
     workbook.save('huzaro_output.xls')
 
