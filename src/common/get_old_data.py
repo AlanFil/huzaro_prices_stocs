@@ -8,7 +8,7 @@ def get_old_data():
     filenames = [fn for fn in filenames if fn.startswith("huzaro_output")]
 
     if not filenames:
-        pass  # TODO: case: there are no matching files
+        return None
 
     filenames.sort(reverse=True)
     latest = filenames[0]
