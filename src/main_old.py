@@ -1,7 +1,8 @@
 import sys
+from time import sleep
+
 import requests
 import xlwt
-from time import sleep
 from scrapy import Selector
 from tqdm import tqdm
 

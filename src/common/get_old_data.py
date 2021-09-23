@@ -1,6 +1,6 @@
 from os import walk, getcwd
+
 import pandas as pd
-import xlrd
 
 
 def get_old_data():
