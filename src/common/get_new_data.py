@@ -20,7 +20,7 @@ def get_new_data(data, error_file):
             try:
                 price = sel.xpath('//em[contains(@class, "main-price")]//text()').extract()[0]
                 price = float(price.replace('\xa0', '').replace('zł', '').replace(',', '.'))
-                price = price - (price * 0.15)
+                price = price - (price * 0.10)
                 price = format(price, '.2f')
             except IndexError:
                 price = sel.xpath('//div[@class="alert-error alert"]/p//text()').extract()[0]

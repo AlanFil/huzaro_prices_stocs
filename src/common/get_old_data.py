@@ -20,4 +20,4 @@ def get_old_data():
 
     file_name_date = latest.replace(file_name_beginning, '').replace('.xls', '')
 
-    return pd.read_excel(latest, header=0), file_name_date
+    return pd.read_excel(latest, header=0, sheet_name="full"), file_name_date
